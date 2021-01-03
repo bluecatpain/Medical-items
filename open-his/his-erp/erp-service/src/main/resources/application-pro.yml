@@ -1,0 +1,43 @@
+#不对外提供 http 服务
+#spring 的配置
+spring:
+  #数据源的配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/his?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456
+    #注入数据源的类型 默认的为HikariDataSource druid 配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      max-active: 20
+      min-idle: 5
+      validation-query: select x
+      initial-size: 3
+      max-wait: 5000
+      stat-view-servlet:
+        # login-username: root
+        # login-password: 123456
+        allow:
+        deny:
+        url-pattern: /druid/*
+        enabled: true #启用数据源监控
+
+#mybatisplus 的配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #扫描 mapper 对象
+  mapper-locations: classpath:mapper/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: auto
+
+#dubbo 配置
+dubbo:
+  application:
+    name: his-erp-service #注册到服务的名字
+  registry:
+    address: zookeeper://121.196.111.201:2181
+  consumer:
+    check: false #消费者不检查
